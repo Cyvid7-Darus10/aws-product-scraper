@@ -4,7 +4,15 @@ try {
 } catch (error) {
   console.error(error);
 }
-import { getRandomUserAgent, getFirstMatch, titleSelectors, priceSelectors, imageSelectors, parsePrice } from './utils';
+import {
+  getRandomUserAgent,
+  getFirstImageMatch,
+  getFirstMatch,
+  titleSelectors,
+  priceSelectors,
+  imageSelectors,
+  parsePrice,
+} from './utils';
 
 interface Product {
   title?: string | null;
@@ -31,11 +39,12 @@ const scrapeProductFromUrl = async (url: string | undefined): Promise<Product | 
 
   try {
     const page = await browser.newPage();
+    await page.setUserAgent(getRandomUserAgent());
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     const title = await getFirstMatch(titleSelectors, page);
     const price = parsePrice(await getFirstMatch(priceSelectors, page));
-    const image = await getFirstMatch(imageSelectors, page);
+    const image = await getFirstImageMatch(imageSelectors, page);
 
     result = { title, price, image };
   } catch (error) {

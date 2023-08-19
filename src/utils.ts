@@ -119,4 +119,25 @@ const getFirstMatch = async (selectors: string[], page: any) => {
   return null;
 };
 
-export { getRandomUserAgent, getFirstMatch, titleSelectors, priceSelectors, imageSelectors, parsePrice };
+const getFirstImageMatch = async (selectors: string[], page: any) => {
+  for (let selector of selectors) {
+    try {
+      const src = await page.$eval(selector, (img: any) => img.src);
+      if (src) return src;
+    } catch (error) {
+      // This error will occur if the selector is not found on the page.
+      // We can ignore it and move to the next selector.
+    }
+  }
+  return null;
+};
+
+export {
+  getRandomUserAgent,
+  getFirstMatch,
+  getFirstImageMatch,
+  titleSelectors,
+  priceSelectors,
+  imageSelectors,
+  parsePrice,
+};
