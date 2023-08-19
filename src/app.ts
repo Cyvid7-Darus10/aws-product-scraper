@@ -1,9 +1,9 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { scrapeProductFromUrl } from './scrape';
 
-export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const lambdaHandler = async (event: any): Promise<APIGatewayProxyResult> => {
   try {
-    const url = event.queryStringParameters?.url;
+    const url = event.queryStringParameters?.url || event['url'];
 
     if (!url) {
       return {

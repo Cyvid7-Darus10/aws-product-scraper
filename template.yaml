@@ -21,7 +21,7 @@ Resources:
             Handler: app.lambdaHandler
             Timeout: 120
             MemorySize: 2048
-            Runtime: nodejs18.x
+            Runtime: nodejs14.x
             Events:
                 Scraper:
                     Type: Api

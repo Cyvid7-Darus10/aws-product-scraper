@@ -26,18 +26,20 @@ interface Error {
 }
 
 const scrapeProductFromUrl = async (url: string | undefined): Promise<Product | Error> => {
-  if (!chromium) return { title: null, price: null, image: null };
-  if (!url) return { title: null, price: null, image: null };
-  const browser = await chromium.puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-    ignoreHTTPSErrors: false,
-  });
+  if (!chromium) return { title: 'No Chromium Loaded', price: null, image: null };
+  if (!url) return { title: 'No Url Sent', price: null, image: null };
   let result = null;
-
+  let browser = null;
+  let error = null;
   try {
+    browser = await chromium.puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+      ignoreHTTPSErrors: false,
+    });
+
     const page = await browser.newPage();
     await page.setUserAgent(getRandomUserAgent());
     await page.goto(url, { waitUntil: 'domcontentloaded' });
@@ -47,14 +49,18 @@ const scrapeProductFromUrl = async (url: string | undefined): Promise<Product | 
     const image = await getFirstImageMatch(imageSelectors, page);
 
     result = { title, price, image };
-  } catch (error) {
-    return {
-      message: 'Error scraping product from URL.',
-      error: error,
-    };
+  } catch (err) {
+    error = err;
   } finally {
-    await browser.close();
-    return result || { title: null, price: null, image: null };
+    if (browser !== null) {
+      await browser.close();
+    } else {
+      return {
+        message: 'Error scraping product from URL.',
+        error: 'Browser is null | ' + error,
+      };
+    }
+    return result || { title: 'No title found', price: null, image: null };
   }
 };
 
