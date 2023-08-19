@@ -64,6 +64,11 @@ describe('Unit test for app handler', function () {
       JSON.stringify({
         message: 'Received URL',
         url: testUrl,
+        product: {
+          title: null,
+          price: null,
+          image: null,
+        },
       }),
     );
   });

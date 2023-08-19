@@ -83,7 +83,7 @@ Events:
     HelloWorld:
         Type: Api
         Properties:
-            Path: /hello
+            Path: /scrape
             Method: get
 ```
 

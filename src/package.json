@@ -1,7 +1,7 @@
 {
   "name": "product-scraper",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
+  "description": "Product Scraper",
   "main": "app.js",
   "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
   "author": "SAM CLI",
@@ -13,6 +13,7 @@
     "test": "npm run compile && npm run unit"
   },
   "dependencies": {
+    "@jest/globals": "^29.6.2",
     "esbuild": "^0.14.14"
   },
   "devDependencies": {
