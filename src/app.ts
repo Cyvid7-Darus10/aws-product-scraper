@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyResult } from 'aws-lambda';
 import { scrapeProductFromUrl } from './scrape';
 
 export const lambdaHandler = async (event: any): Promise<APIGatewayProxyResult> => {
@@ -17,6 +17,10 @@ export const lambdaHandler = async (event: any): Promise<APIGatewayProxyResult> 
     const product = await scrapeProductFromUrl(url);
     return {
       statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
       body: JSON.stringify({
         message: 'Received URL',
         url: url,
@@ -26,6 +30,10 @@ export const lambdaHandler = async (event: any): Promise<APIGatewayProxyResult> 
   } catch (err) {
     return {
       statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
       body: JSON.stringify({
         message: err,
       }),

@@ -31,6 +31,7 @@ const scrapeProductFromUrl = async (url: string | undefined): Promise<Product | 
   let result = null;
   let browser = null;
   let error = null;
+
   try {
     browser = await chromium.puppeteer.launch({
       args: chromium.args,
